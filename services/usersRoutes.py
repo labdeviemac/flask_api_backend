@@ -10,6 +10,10 @@ class UsersRoutes(Resource):
             users = Users()
             resultset = users.select()
             """
+            O comando literal_eval é um interessante comando da biblioteca 
+            Python ast – Abstract Syntax Trees. Ele avalia uma string contendo 
+            uma expressão Python e a executa.
+            
             O literal_eval funciona de maneira semelhante ao conhecido comando 
             eval, porém aceita apenas um pequeno conjunto de estruturas Python: 
             strings, números, dicionários, listas, tupla, valores boleanos(True 

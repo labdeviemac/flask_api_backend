@@ -1,6 +1,4 @@
-from flask import jsonify
 import json
-from flask.helpers import make_response
 import mysql.connector
 class Users():
 
