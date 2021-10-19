@@ -7,7 +7,7 @@ api = Api(app)
 
 # Routes for application
 api.add_resource(UsersRoutes, "/users")
-api.add_resource(UsersRoutesList, "/users/<string:nome>")
+api.add_resource(UsersRoutesList, "/users/<string:name>")
 
 if __name__ == "__main__":
     app.run(debug=True, port=7700)

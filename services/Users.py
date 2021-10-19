@@ -32,3 +32,15 @@ class Users():
             return json.dumps(data)
         except:
             raise Exception("Error")
+
+    def select_by_name(self, name):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(f"SELECT * FROM users WHERE name LIKE '%{name}%'")
+            result = cursor.fetchall()
+            data = dict()
+            for x in result:
+                data.update({ x[0]: { "name": x[1], "surname": x[2], "age": x[3], "birthdate": str(x[4]), "created_at": str(x[5]), "users_id": x[6]}})
+            return json.dumps(data)
+        except:
+            raise Exception("Error")

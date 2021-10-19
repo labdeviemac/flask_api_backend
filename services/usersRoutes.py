@@ -1,4 +1,4 @@
-from flask_restful import Resource, abort, reqparse 
+from flask_restful import Resource, abort, reqparse, request
 import ast  # Biblioteca Abstract Syntax Trees
 from .Users import Users
 import datetime
@@ -13,7 +13,7 @@ class UsersRoutes(Resource):
             O comando literal_eval é um interessante comando da biblioteca 
             Python ast – Abstract Syntax Trees. Ele avalia uma string contendo 
             uma expressão Python e a executa.
-            
+
             O literal_eval funciona de maneira semelhante ao conhecido comando 
             eval, porém aceita apenas um pequeno conjunto de estruturas Python: 
             strings, números, dicionários, listas, tupla, valores boleanos(True 
@@ -47,8 +47,15 @@ class UsersRoutes(Resource):
     
 class UsersRoutesList(Resource):
 
-    def get(self, nome):
+    def get(self, name):
         try:
-            return { "acknowledge": True, "return": nome }
+            users = Users()
+            resultset = users.select_by_name(name)
+            results = ast.literal_eval(resultset)
+
+            if results: 
+                return { "acknowledge": True, "content": results }
+            else:
+                return { "acknowledge": False, "content": "Item not found" }
         except:
             return abort(400, message={"message": "Error"})
