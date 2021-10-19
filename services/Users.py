@@ -44,3 +44,17 @@ class Users():
             return json.dumps(data)
         except:
             raise Exception("Error")
+
+    def update(self, values, where):
+        cursor = self.connection.cursor()
+        try:
+            sql = f"UPDATE users SET {values} WHERE id = {where}"
+            print(sql)
+            cursor.execute(sql)
+            self.connection.commit()
+            return cursor.rowcount
+        except:
+            raise Exception("Error")
+
+    def update_specific(self):
+        pass
