@@ -1,5 +1,7 @@
 import json
 import mysql.connector
+
+
 class Users():
 
     def __init__(self):
@@ -18,8 +20,8 @@ class Users():
             cursor.execute(sql, values)
             self.connection.commit()
             return cursor.rowcount
-        except:
-            raise Exception("Error")
+        except Exception as e:
+            return e
 
     def select(self):
         cursor = self.connection.cursor()
@@ -41,8 +43,8 @@ class Users():
                     }
                 )
             return json.dumps(data)
-        except:
-            raise Exception("Error")
+        except Exception as e:
+            return e
 
     def select_by_id(self, iduser):
         cursor = self.connection.cursor()
@@ -64,8 +66,8 @@ class Users():
                     }
                 )
             return json.dumps(data)
-        except:
-            raise Exception("Error")
+        except Exception as e:
+            return e
 
     def update(self, values, where):
         cursor = self.connection.cursor()
@@ -74,8 +76,8 @@ class Users():
             cursor.execute(sql)
             self.connection.commit()
             return cursor.rowcount
-        except:
-            raise Exception("Error")
+        except Exception as e:
+            return e
 
     def delete(self, iduser):
         cursor = self.connection.cursor()
@@ -84,5 +86,5 @@ class Users():
             cursor.execute(sql)
             self.connection.commit()
             return cursor.rowcount
-        except:
-            raise Exception("Error")
+        except Exception as e:
+            return e
