@@ -1,17 +1,8 @@
 import json
-import mysql.connector
+from services.Connection import Connection
 
 
-class Users():
-
-    def __init__(self):
-        self.connection = mysql.connector.connect(
-            host="localhost",
-            port=3307,
-            user="root",
-            password="q1w2e3r4",
-            database="flask_sample"
-        )
+class Users(Connection):
 
     def insert(self, values):
         cursor = self.connection.cursor()
