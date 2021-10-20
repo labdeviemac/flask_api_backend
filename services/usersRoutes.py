@@ -1,5 +1,5 @@
 from flask_restful import Resource, abort, reqparse
-from .Users import Users
+from services.Users import Users
 import datetime
 import ast
 
@@ -22,7 +22,10 @@ class UsersRoutesListAll(Resource):
             aceitar bytes e set.
             """
             # Esta função transforma strings em um objeto Python
-            return {"acknowledge": True, "content": ast.literal_eval(resultset)}, 200
+            return {
+                       "acknowledge": True,
+                       "content": ast.literal_eval(resultset)
+                   }, 200
         except:
             return abort(400, message={"message": "Error"})
 
@@ -44,7 +47,10 @@ class UsersRoutesInsert(Resource):
             users = Users()
             users.insert(data)
 
-            return {"acknowledge": True, "return": "Successfully saved!"}, 201
+            return {
+                       "acknowledge": True,
+                       "return": "Successfully saved!"
+                   }, 201
 
         except:
             return abort(400, message={"message": "Error"})
@@ -59,9 +65,15 @@ class UsersRoutesList(Resource):
             results = ast.literal_eval(resultset)
 
             if results:
-                return {"acknowledge": True, "content": results}, 200
+                return {
+                           "acknowledge": True,
+                           "content": results
+                       }, 200
             else:
-                return {"acknowledge": False, "content": "User not found"}, 404
+                return {
+                           "acknowledge": False,
+                           "content": "User not found"
+                       }, 404
         except:
             return abort(400, message={"message": "Error"})
 
@@ -77,12 +89,16 @@ class UsersRoutesUpdate(Resource):
             parameter.add_argument('birthdate', type=str, required=True)
 
             args = parameter.parse_args()
-            values = f"name = '{args['name']}', surname = '{args['surname']}', age = {args['age']}, birthdate = '{args['birthdate']}'"
+            values = f"name = '{args['name']}', surname = '{args['surname']}', age = {args['age']}, " \
+                     f"birthdate = '{args['birthdate']}'"
 
             users = Users()
             users.update(values, iduser)
 
-            return {"acknowledge": True, "return": "Successfully updated!"}, 200
+            return {
+                       "acknowledge": True,
+                       "return": "Successfully updated!"
+                   }, 200
         except:
             return abort(400, message={"message": "Error"})
 
@@ -99,7 +115,7 @@ class UsersRoutesUpdatePatch(Resource):
 
             args = parameter.parse_args()
             arguments = dict(args)
-            values = {k: v for k, v in arguments.items() if v is not None and k is not "id"}
+            values = {k: v for k, v in arguments.items() if v is not None and k != "id"}
 
             database_string = ''
             for k, v in values.items():
@@ -108,7 +124,10 @@ class UsersRoutesUpdatePatch(Resource):
             users = Users()
             users.update(database_string.rstrip(", "), iduser)
 
-            return {"acknowledge": True, "return": "Successfully updated!"}, 200
+            return {
+                       "acknowledge": True,
+                       "return": "Successfully updated!"
+                   }, 200
 
         except:
             return abort(400, message={"message": "Error"})
@@ -117,4 +136,9 @@ class UsersRoutesUpdatePatch(Resource):
 class UsersRoutesDelete(Resource):
 
     def delete(self, iduser):
-        pass
+        try:
+            users = Users()
+            users.delete(iduser)
+            return {}, 204
+        except:
+            return abort(400, message={"message": "Error"})

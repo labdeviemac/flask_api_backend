@@ -5,7 +5,7 @@ from services.usersRoutes import *
 app = Flask(__name__)
 api = Api(app)
 
-# Routes for application
+# Routes for Users in Application
 api.add_resource(UsersRoutesListAll, "/users")  # GET
 api.add_resource(UsersRoutesInsert, "/users")  # POST
 api.add_resource(UsersRoutesList, "/users/<int:iduser>")  # GET
