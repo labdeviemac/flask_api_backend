@@ -1,3 +1,6 @@
+CREATE DATABASE `flask_sample`;
+USE `flask_sample`;
+
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255),

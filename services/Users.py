@@ -33,14 +33,14 @@ class Users():
         except:
             raise Exception("Error")
 
-    def select_by_name(self, name):
+    def select_by_id(self, iduser):
         cursor = self.connection.cursor()
         try:
-            cursor.execute(f"SELECT * FROM users WHERE name LIKE '%{name}%'")
+            cursor.execute(f"SELECT * FROM users WHERE id = {iduser}")
             result = cursor.fetchall()
             data = dict()
             for x in result:
-                data.update({ x[0]: { "name": x[1], "surname": x[2], "age": x[3], "birthdate": str(x[4]), "created_at": str(x[5]), "users_id": x[6]}})
+                data.update({ "id": x[0], "name": x[1], "surname": x[2], "age": x[3], "birthdate": str(x[4]), "created_at": str(x[5]), "users_id": x[6]})
             return json.dumps(data)
         except:
             raise Exception("Error")
@@ -56,5 +56,5 @@ class Users():
         except:
             raise Exception("Error")
 
-    def update_specific(self):
+    def delete(self, iduser):
         pass
