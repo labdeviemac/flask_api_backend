@@ -60,10 +60,10 @@ class Users(Connection):
         except Exception as e:
             return e
 
-    def update(self, values, where):
+    def update(self, data, clause):
         cursor = self.connection.cursor()
         try:
-            sql = f"UPDATE users SET {values} WHERE id = {where}"
+            sql = f"UPDATE users SET {data} WHERE id = {clause}"
             cursor.execute(sql)
             self.connection.commit()
             return cursor.rowcount

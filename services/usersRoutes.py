@@ -27,7 +27,29 @@ class UsersRoutesListAll(Resource):
                        "content": ast.literal_eval(resultset)
                    }, 200
         except:
-            return abort(400, message={"message": "Error"})
+            return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
+
+
+class UsersRoutesListById(Resource):
+
+    def get(self, id):
+        try:
+            users = Users()
+            resultset = users.select_by_id(id)
+            results = ast.literal_eval(resultset)
+
+            if results:
+                return {
+                           "acknowledge": True,
+                           "content": results
+                       }, 200
+            else:
+                return {
+                           "acknowledge": False,
+                           "content": "User not found"
+                       }, 404
+        except:
+            return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
 
 
 class UsersRoutesInsert(Resource):
@@ -48,39 +70,17 @@ class UsersRoutesInsert(Resource):
             users.insert(data)
 
             return {
-                       "acknowledge": True,
-                       "return": "Successfully saved!"
-                   }, 201
+                "acknowledge": True,
+                "return": "Successfully saved!"
+            }, 201
 
         except:
-            return abort(400, message={"message": "Error"})
-
-
-class UsersRoutesList(Resource):
-
-    def get(self, iduser):
-        try:
-            users = Users()
-            resultset = users.select_by_id(iduser)
-            results = ast.literal_eval(resultset)
-
-            if results:
-                return {
-                           "acknowledge": True,
-                           "content": results
-                       }, 200
-            else:
-                return {
-                           "acknowledge": False,
-                           "content": "User not found"
-                       }, 404
-        except:
-            return abort(400, message={"message": "Error"})
+            return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
 
 
 class UsersRoutesUpdate(Resource):
 
-    def put(self, iduser):
+    def put(self, id):
         try:
             parameter = reqparse.RequestParser()
             parameter.add_argument('name', type=str, required=True)
@@ -93,19 +93,19 @@ class UsersRoutesUpdate(Resource):
                      f"birthdate = '{args['birthdate']}'"
 
             users = Users()
-            users.update(values, iduser)
+            users.update(values, id)
 
             return {
                        "acknowledge": True,
                        "return": "Successfully updated!"
                    }, 200
         except:
-            return abort(400, message={"message": "Error"})
+            return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
 
 
 class UsersRoutesUpdatePatch(Resource):
 
-    def patch(self, iduser):
+    def patch(self, id):
         try:
             parameter = reqparse.RequestParser()
             parameter.add_argument('name', type=str, required=False)
@@ -115,30 +115,30 @@ class UsersRoutesUpdatePatch(Resource):
 
             args = parameter.parse_args()
             arguments = dict(args)
-            values = {k: v for k, v in arguments.items() if v is not None and k != "id"}
+            values = {k: v for k, v in arguments.items() if v is not None}
 
             database_string = ''
             for k, v in values.items():
                 database_string += f"{k} = '{v}', "
 
             users = Users()
-            users.update(database_string.rstrip(", "), iduser)
+            users.update(database_string.rstrip(", "), id)
 
             return {
-                       "acknowledge": True,
-                       "return": "Successfully updated!"
-                   }, 200
+                "acknowledge": True,
+                "return": "Successfully updated!"
+            }, 200
 
         except:
-            return abort(400, message={"message": "Error"})
+            return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
 
 
 class UsersRoutesDelete(Resource):
 
-    def delete(self, iduser):
+    def delete(self, id):
         try:
             users = Users()
-            users.delete(iduser)
+            users.delete(id)
             return {}, 204
         except:
-            return abort(400, message={"message": "Error"})
+            return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
