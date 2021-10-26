@@ -29,6 +29,7 @@ class Users(Connection):
                         "age": x[3],
                         "birthdate": str(x[4]),
                         "created_at": str(x[5]),
+                        "state_id": x[7],
                         "state": x[8],
                         "state_code": x[9]
                     }
@@ -52,6 +53,7 @@ class Users(Connection):
                         "age": x[3],
                         "birthdate": str(x[4]),
                         "created_at": str(x[5]),
+                        "state_id": x[7],
                         "state_name": x[8],
                         "state_code": x[9]
                     }
