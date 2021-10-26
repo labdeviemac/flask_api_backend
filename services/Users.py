@@ -17,22 +17,22 @@ class Users(Connection):
     def select(self):
         cursor = self.connection.cursor()
         try:
-            cursor.execute("SELECT * FROM users")
+            cursor.execute("SELECT * FROM users u JOIN states s ON s.id = u.users_id ORDER BY u.id")
             result = cursor.fetchall()
             data = dict()
             for x in result:
-                data.update(
-                    {
-                        x[0]: {
-                            "name": x[1],
-                            "surname": x[2],
-                            "age": x[3],
-                            "birthdate": str(x[4]),
-                            "created_at": str(x[5]),
-                            "users_id": x[6]
-                        }
+                data.update({
+                    x[0]: {
+                        "id": x[0],
+                        "name": x[1],
+                        "surname": x[2],
+                        "age": x[3],
+                        "birthdate": str(x[4]),
+                        "created_at": str(x[5]),
+                        "state": x[8],
+                        "state_code": x[9]
                     }
-                )
+                })
             return json.dumps(data)
         except Exception as e:
             return e

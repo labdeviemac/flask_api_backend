@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 from services.usersRoutes import *
 from services.statesRoutes import *
 
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app)
 
 # Routes for Users in Application
 api.add_resource(UsersRoutesListAll, "/users")  # GET
