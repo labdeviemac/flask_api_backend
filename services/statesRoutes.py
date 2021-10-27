@@ -1,3 +1,4 @@
+from flask import jsonify
 from flask_restful import Resource, abort, reqparse
 from services.States import States
 import ast
@@ -9,10 +10,7 @@ class StatesRoutesListAll(Resource):
         try:
             states = States()
             resultset = states.select()
-            return {
-                "acknowledge": True,
-                "content": ast.literal_eval(resultset)
-            }, 200
+            return jsonify(dict(ast.literal_eval(resultset)))
         except:
             return abort(400, message={"acknowledge": False, "reason": "Error while executing request!"})
 
@@ -26,10 +24,7 @@ class StatesRoutesListById(Resource):
             results = ast.literal_eval(resultset)
 
             if results:
-                return {
-                    "acknowledge": True,
-                    "content": results
-                }, 200
+                return jsonify(results)
             else:
                 return {
                     "acknowledge": False,
